@@ -24,7 +24,7 @@ DiffView.compare(a, b)
 for **side by side** configuration outputs:
 
 |   | Old text |   | New text |
-| - | -------- | - | -------- |
+| ---- | -------- | ---- | -------- |
 | 1 | a        | 1 | d        |
 | 2 | b        | 2 | b        |
 | 3 | c        |   |          |
@@ -32,7 +32,7 @@ for **side by side** configuration outputs:
 and for the **inline** configuration outputs
 
 |   |   | Text |
-| - | - | -------- |
+| ---- | ---- | -------- |
 | 1 |   | a       |
 |   | 1 | d       |
 | 2 | 2 | b       |
