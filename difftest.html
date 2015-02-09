@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>jsdifflib demo</title>
+    <link rel="stylesheet" type="text/css" href="diffview.css"/>
+    <script type="text/javascript" src="diffviewsimple.js"></script>
+    <script type="text/javascript" src="diffview.js"></script>
+    <script type="text/javascript" src="difflib.js"></script>
+    <style type="text/css">
+        body {
+            font-size: 12px;
+            font-family: Sans-Serif;
+        }
+        h2 {
+            margin: 0.5em 0 0.1em;
+            text-align: center;
+        }
+        .top {
+            text-align: center;
+        }
+        .textInput {
+            display: block;
+            width: 49%;
+            float: left;
+        }
+        textarea {
+            width:100%;
+            height:300px;
+        }
+        label:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .spacer {
+            margin-left: 10px;
+        }
+        .viewType {
+            font-size: 16px;
+            clear: both;
+            text-align: center;
+            padding: 1em;
+        }
+        #diffoutput {
+            width: 100%;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function diffUsingJS(viewType) {
+            "use strict";
+            var byId = function (id) { return document.getElementById(id); },
+                    base = byId("baseText").value,
+                    newtxt = byId("newText").value,
+                    diffoutputdiv = byId("diffoutput"),
+                    diffoutputdivsimple = byId("diffoutputsimple"),
+                    contextSize = byId("contextSize").value;
+
+            diffoutputdiv.innerHTML = "";
+            contextSize = contextSize || null;
+
+            diffoutputdiv.appendChild(DiffView.compare(base, newtxt, "Old Text", "New Text", contextSize, viewType));
+
+            diffoutputdivsimple.innerHTML = (DiffViewSimple.compare(byId("baseText").value, byId("newText").value));
+        }
+
+    </script>
+</head>
+<body>
+<h1 class="top"><a href="http://github.com/cemerick/jsdifflib">jsdifflib</a> demo</h1>
+<div class="top">
+    <strong>Context size (optional):</strong> <input type="text" id="contextSize" value="" />
+</div>
+<div class="textInput">
+    <h2>Base Text</h2>
+    <textarea id="baseText">
+jsdifflib is a Javascript library that provides:
+
+a partial reimplementation of Python’s difflib module (specifically, the SequenceMatcher class)
+
+a visual diff view generator, that offers side-by-side as well as inline formatting of file data
+
+Yes, I ripped off the formatting of the diff view from the Trac project. It’s a near-ideal presentation of diff data as far as I’m concerned. If you don’t agree, you can hack the CSS to your heart’s content.
+
+jsdifflib does not require jQuery or any other Javascript library.
+
+Python Interoperability
+
+The main reason why I reimplemented Python’s difflib module in Javascript to serve as the algorithmic basis for jsdifflib was that I didn’t want to mess with the actual diff algorithm — I wanted to concentrate on getting the in-browser view right. However, because jsdifflib’s API matches Python’s difflib’s SequenceMatcher class in its entirety, it’s trivial to do the actual diffing on the server-side, using Python, and pipe the results of that diff calculation to your in-browser diff view. So, you have the choice of doing everything in Javascript on the browser, or falling back to server-side diff processing if you are diffing really large files.
+
+Most of the time, we do the latter, simply because while jsdifflib is pretty fast all by itself, and is totally usable for diffing "normal" files (i.e. fewer than 100K lines or so), we regularly need to diff files that are 1 or 2 orders of magnitude larger than that. For that, server-side diffing is a necessity.
+
+Demo & Examples
+
+You can give jsdifflib a try without downloading anything. Just click the link below, put some content to be diffed in the two textboxes, and diff away.
+    </textarea>
+</div>
+<div class="textInput spacer">
+    <h2>New Text</h2>
+    <textarea id="newText">
+jsdifflib is a Javascript library that provides:
+
+a partial reimplementation of Python’s difflib module (specifically, the SequenceMatcher class)
+
+        The main reason why I reimplemented Python’s difflib module in Javascript to serve as the algorithmic basis for jsdifflib was that I didn’t want to mess with the actual diff algorithm — I wanted to concentrate on getting the in-browser view right. However, because jsdifflib’s API matches Python’s difflib’s SequenceMatcher class in its entirety, it’s trivial to do the actual diffing on the server-side, using Python, and pipe the results of that diff calculation to your in-browser diff view. So, you have the choice of doing everything in Javascript on the browser, or falling back to server-side diff processing if you are diffing really large files.
+
+
+a visual diff view generator, that offers side-by-side as well as inline formatting of file data
+
+Yes, I ripped off the formatting of the  Trac project. It’s a near-ideal presentation of miff data as far as I’m concerned. If you don’t agree, you can hack the CSS to your heart’s content.
+
+jsdifflib does not require jQuery or any other Javascript library.
+
+Python Interoperability
+
+
+Most  we do the latter, simply because while jsdifflib is pretty fast all by itself, and is totally usable for diffing "normal" files (i.e. fewer than 100K lines or so), we regularly need to diff files that are 1 or 2 orders of magnitude larger than that. For that, server-side diffing is a necessity.
+
+Demo & Examples
+
+You can give jsdifflib a try without downloading anything. Just click the link below, put some content to be diffed in the two textboxes, and diff away.
+    </textarea>
+</div>
+<div class="viewType">
+    <input type="radio" name="_viewtype" id="sidebyside" onclick="diffUsingJS(0);" /> <label for="sidebyside">Side by Side Diff</label>
+    &nbsp; &nbsp;
+    <input type="radio" name="_viewtype" id="inline" onclick="diffUsingJS(1);" /> <label for="inline">Inline Diff</label>
+</div>
+<div id="diffoutput"></div>
+<pre id="diffoutputsimple"> </pre>
+</body>
+</html>
+
