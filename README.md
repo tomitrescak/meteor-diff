@@ -4,7 +4,7 @@ Calculates and visualises differences between textual files. Uses teh popular [J
 
 # Examples
 
-To calculate deltas for two files:
+To calculate **deltas** for two files:
 
 ```
 var a = ' a\
@@ -13,7 +13,34 @@ c'
 
 var b = ' d\
 b'
+```
 
+## HTML output
+
+```
+DiffView.compare(a, b)
+```
+
+for **side by side** configuration outputs:
+
+|   | Old text |   | New text |
+| - | -------- | - | -------- |
+| 1 | a        | 1 | d        |
+| 2 | b        | 2 | b        |
+| 3 | c        |   |          |
+
+and for the **inline** configuration outputs
+
+|   |   | Text |
+| - | - | -------- |
+| 1 |   | a       |
+|   | 1 | d       |
+| 2 | 2 | b       |
+| 3 |   | c
+
+## Textual output
+
+```
 console.log(DiffViewSimple.compare(a, b));
 ```
 
@@ -25,13 +52,8 @@ outputs
 - (3,) c
 ```
 
-To see the examples of the HTML output please see the original [documentation](https://github.com/cemerick/jsdifflib)
+To see the more examples and options please see the original [documentation](https://github.com/cemerick/jsdifflib)
 
-Use as:
-
-```
-DiffView.compare(a, b)
-```
 
 
 

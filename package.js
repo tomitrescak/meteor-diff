@@ -1,10 +1,10 @@
 Package.describe({
-  name: 'tomi:simplediff',
+  name: 'tomi:diff',
   version: '1.0.0',
   // Brief, one-line summary of the package.
   summary: 'Visualises differences between two textual files (diff)',
   // URL to the Git repository containing the source code for this package.
-  git: '',
+  git: 'https://tomitrescak@github.com/tomitrescak/meteor-diff.git',
   // By default, Meteor will default to using README.md for documentation.
   // To avoid submitting documentation, set this field to null.
   documentation: 'README.md'
