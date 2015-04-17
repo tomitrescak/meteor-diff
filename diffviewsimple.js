@@ -104,5 +104,68 @@ DiffViewSimple = {
     }
 
     return output;
+  },
+  renderDelta: function (history, step, currentStep, currentStepText) {
+    // initialise the text
+    if (!currentStepText) {
+      if (!currentStep) {
+        currentStep = 0;
+      }
+      currentStepText = '';
+
+      for (var i=0; i<=step; i++) {
+        currentStepText = apply(currentStepText, history[i].delta, true);
+      }
+    }
+
+    return currentStepText;
+
+    //// we can either go back a step or forward a step
+    //// forwards
+    //if (currentStep < step) {
+    //  for (var i=currentStep; i<step; i++) {
+    //
+    //  }
+    //}
+    //// backward
+    //else {
+    //  for (var i=currentStep; i>step; i--) {
+    //
+    //  }
+    //}
   }
 };
+
+var apply = function(step, delta, forward) {
+  var splitDelta = delta.split('\n');
+  var stepLines = step.split('\n');
+  var added = 0;
+  var removed = 0;
+
+  for (var i=0; i<splitDelta.length; i++) {
+    var groups = /([+-]) \((\d*),(\d*)\) (.*)/.exec(splitDelta[i]);
+
+    if (!groups) {
+      continue;
+    }
+
+    var change = groups[1];
+    var origLine = groups[2];
+    var newLine = groups[3];
+    var deltaText = groups[4];
+
+    if (change == '+' && forward || change == '-' && !forward) {
+      var idx = parseInt(newLine);
+      stepLines.splice(idx - 1, 0, deltaText);
+      added++;
+    }
+    if (change == '-' && forward || change == '+' && !forward) {
+      var idx = parseInt(origLine);
+      stepLines.splice(idx - 1 + added - removed, 1);
+
+      removed++;
+    }
+  }
+
+  return stepLines.join('\n');
+}
