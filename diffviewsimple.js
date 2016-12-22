@@ -1,3 +1,5 @@
+const difflib = require('./difflib').difflib;
+
 /*
  This is a modified file from the  jsdifflib v1.0. <http://github.com/cemerick/jsdifflib>
 
@@ -27,7 +29,7 @@
  authors and should not be interpreted as representing official policies, either expressed
  or implied, of Chas Emerick.
  */
-DiffViewSimple = {
+const DiffViewSimple = {
   compare: function(originalText, newText) {
     var base = difflib.stringAsLines(originalText);
     var newtxt = difflib.stringAsLines(newText);
@@ -169,3 +171,5 @@ var apply = function(step, delta, forward) {
 
   return stepLines.join('\n');
 }
+
+module.exports.DiffViewSimple = DiffViewSimple;
