@@ -1,7 +1,7 @@
-const DiffView = require('./diffview').DiffView;
-const DiffViewSimple = require('./diffviewsimple').DiffViewSimple;
+var DiffView = require('./diffview').DiffView;
+var DiffViewSimple = require('./diffviewsimple').DiffViewSimple;
 
 module.exports = {
-  DiffView,
-  DiffViewSimple
+  DiffView: DiffView,
+  DiffViewSimple: DiffViewSimple
 }

@@ -1,4 +1,4 @@
-const difflib = require('./difflib').difflib;
+var difflib = require('./difflib').difflib;
 
 /*
  This is a modified file from the  jsdifflib v1.0. <http://github.com/cemerick/jsdifflib>
@@ -29,8 +29,11 @@ const difflib = require('./difflib').difflib;
  authors and should not be interpreted as representing official policies, either expressed
  or implied, of Chas Emerick.
  */
-const DiffViewSimple = {
-  compare: function(originalText, newText) {
+
+
+
+var DiffViewSimple = {
+  compare: function (originalText, newText) {
     var base = difflib.stringAsLines(originalText);
     var newtxt = difflib.stringAsLines(newText);
     var sm = new difflib.SequenceMatcher(base, newtxt);
@@ -115,8 +118,8 @@ const DiffViewSimple = {
       }
       currentStepText = '';
 
-      for (var i=0; i<=step; i++) {
-        currentStepText = apply(currentStepText, history[i].delta, true);
+      for (var i = 0; i <= step; i++) {
+        currentStepText = DiffViewSimple.applyDiff(currentStepText, history[i].delta, true);
       }
     }
 
@@ -135,41 +138,40 @@ const DiffViewSimple = {
     //
     //  }
     //}
+  },
+  applyDiff: function (step, delta, forward) {
+    var splitDelta = delta.split('\n');
+    var stepLines = step.split('\n');
+    var added = 0;
+    var removed = 0;
+
+    for (var i = 0; i < splitDelta.length; i++) {
+      var groups = /([+-]) \((\d*),(\d*)\) (.*)/.exec(splitDelta[i]);
+
+      if (!groups) {
+        continue;
+      }
+
+      var change = groups[1];
+      var origLine = groups[2];
+      var newLine = groups[3];
+      var deltaText = groups[4];
+
+      if (change == '+' && forward || change == '-' && !forward) {
+        var idx = parseInt(newLine);
+        stepLines.splice(idx - 1, 0, deltaText);
+        added++;
+      }
+      if (change == '-' && forward || change == '+' && !forward) {
+        var idx = parseInt(origLine);
+        stepLines.splice(idx - 1 + added - removed, 1);
+
+        removed++;
+      }
+    }
+
+    return stepLines.join('\n');
   }
 };
-
-var apply = function(step, delta, forward) {
-  var splitDelta = delta.split('\n');
-  var stepLines = step.split('\n');
-  var added = 0;
-  var removed = 0;
-
-  for (var i=0; i<splitDelta.length; i++) {
-    var groups = /([+-]) \((\d*),(\d*)\) (.*)/.exec(splitDelta[i]);
-
-    if (!groups) {
-      continue;
-    }
-
-    var change = groups[1];
-    var origLine = groups[2];
-    var newLine = groups[3];
-    var deltaText = groups[4];
-
-    if (change == '+' && forward || change == '-' && !forward) {
-      var idx = parseInt(newLine);
-      stepLines.splice(idx - 1, 0, deltaText);
-      added++;
-    }
-    if (change == '-' && forward || change == '+' && !forward) {
-      var idx = parseInt(origLine);
-      stepLines.splice(idx - 1 + added - removed, 1);
-
-      removed++;
-    }
-  }
-
-  return stepLines.join('\n');
-}
 
 module.exports.DiffViewSimple = DiffViewSimple;

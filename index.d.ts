@@ -53,7 +53,7 @@ interface HistoryStep {
 }
 
 interface IDiff {
-  compare(originalText: string, newText: string): string;
+  compare(originalText: string, newText: string, baseTextName?: string, newTextName?: string, contextSize?: number, viewType?: 0 | 1): string;
   buildView (params: Options): string;
 }
 
