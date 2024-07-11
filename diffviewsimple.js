@@ -1,4 +1,4 @@
-var difflib = require('./difflib').difflib;
+var difflib = require("./difflib").difflib;
 
 /*
  This is a modified file from the  jsdifflib v1.0. <http://github.com/cemerick/jsdifflib>
@@ -30,10 +30,8 @@ var difflib = require('./difflib').difflib;
  or implied, of Chas Emerick.
  */
 
-
-
 var DiffViewSimple = {
-  compare: function (originalText, newText) {
+  compare: function(originalText, newText) {
     var base = difflib.stringAsLines(originalText);
     var newtxt = difflib.stringAsLines(newText);
     var sm = new difflib.SequenceMatcher(base, newtxt);
@@ -61,7 +59,7 @@ var DiffViewSimple = {
    * - viewType: if 0, a side-by-side diff view is generated (default); if 1, an inline diff view is
    *     generated
    */
-  buildView: function (params) {
+  buildView: function(params) {
     var baseTextLines = params.baseTextLines;
     var newTextLines = params.newTextLines;
     var opcodes = params.opcodes;
@@ -76,16 +74,19 @@ var DiffViewSimple = {
       throw "Cannot build diff view; opcodes is not defined.";
     }
 
-    var output = '';
+    var output = "";
 
     function addCellsInline(tidx, tidx2, textLines, change) {
-      output += change == 'insert' ? '+ (' : '- (';
+      output += change == "insert" ? "+ (" : "- (";
       output += tidx == null ? "" : (tidx + 1).toString();
-      output += ',';
+      output += ",";
       output += tidx2 == null ? "" : (tidx2 + 1).toString();
-      output += ') '
-      output += textLines[tidx != null ? tidx : tidx2].replace(/\t/g, "\u00a0\u00a0\u00a0\u00a0");
-      output += '\n';
+      output += ") ";
+      output += textLines[tidx != null ? tidx : tidx2].replace(
+        /\t/g,
+        "\u00a0\u00a0\u00a0\u00a0"
+      );
+      output += "\n";
     }
 
     for (var idx = 0; idx < opcodes.length; idx++) {
@@ -110,16 +111,20 @@ var DiffViewSimple = {
 
     return output;
   },
-  renderDelta: function (history, step, currentStep, currentStepText) {
+  renderDelta: function(history, step, currentStep, currentStepText) {
     // initialise the text
     if (!currentStepText) {
       if (!currentStep) {
         currentStep = 0;
       }
-      currentStepText = '';
+      currentStepText = "";
 
       for (var i = 0; i <= step; i++) {
-        currentStepText = DiffViewSimple.applyDiff(currentStepText, history[i].delta, true);
+        currentStepText = DiffViewSimple.applyDiff(
+          currentStepText,
+          history[i].delta,
+          true
+        );
       }
     }
 
@@ -139,9 +144,9 @@ var DiffViewSimple = {
     //  }
     //}
   },
-  applyDiff: function (step, delta, forward) {
-    var splitDelta = delta.split('\n');
-    var stepLines = step.split('\n');
+  applyDiff: function(step, delta, forward) {
+    var splitDelta = delta.split("\n");
+    var stepLines = step.split("\n");
     var added = 0;
     var removed = 0;
 
@@ -157,12 +162,12 @@ var DiffViewSimple = {
       var newLine = groups[3];
       var deltaText = groups[4];
 
-      if (change == '+' && forward || change == '-' && !forward) {
+      if ((change == "+" && forward) || (change == "-" && !forward)) {
         var idx = parseInt(newLine);
         stepLines.splice(idx - 1, 0, deltaText);
         added++;
       }
-      if (change == '-' && forward || change == '+' && !forward) {
+      if ((change == "-" && forward) || (change == "+" && !forward)) {
         var idx = parseInt(origLine);
         stepLines.splice(idx - 1 + added - removed, 1);
 
@@ -170,7 +175,7 @@ var DiffViewSimple = {
       }
     }
 
-    return stepLines.join('\n');
+    return stepLines.join("\n");
   }
 };
 
