@@ -162,6 +162,13 @@ var DiffViewSimple = {
       var newLine = groups[3];
       var deltaText = groups[4];
 
+      if (origLine === "") {
+        origLine = newLine;
+      }
+      if (newLine === "") {
+        newLine = origLine;
+      }
+
       if ((change == "+" && forward) || (change == "-" && !forward)) {
         var idx = parseInt(newLine);
         stepLines.splice(idx - 1, 0, deltaText);

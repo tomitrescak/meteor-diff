@@ -1,6 +1,6 @@
 {
   "name": "diff-view",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Diff viewer based on simple diff",
   "main": "index.js",
   "scripts": {
