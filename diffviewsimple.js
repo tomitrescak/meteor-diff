@@ -31,7 +31,7 @@ var difflib = require("./difflib").difflib;
  */
 
 var DiffViewSimple = {
-  compare: function(originalText, newText) {
+  compare: function (originalText, newText) {
     var base = difflib.stringAsLines(originalText);
     var newtxt = difflib.stringAsLines(newText);
     var sm = new difflib.SequenceMatcher(base, newtxt);
@@ -59,7 +59,7 @@ var DiffViewSimple = {
    * - viewType: if 0, a side-by-side diff view is generated (default); if 1, an inline diff view is
    *     generated
    */
-  buildView: function(params) {
+  buildView: function (params) {
     var baseTextLines = params.baseTextLines;
     var newTextLines = params.newTextLines;
     var opcodes = params.opcodes;
@@ -90,8 +90,8 @@ var DiffViewSimple = {
     }
 
     for (var idx = 0; idx < opcodes.length; idx++) {
-      code = opcodes[idx];
-      change = code[0];
+      var code = opcodes[idx];
+      var change = code[0];
       var b = code[1];
       var be = code[2];
       var n = code[3];
@@ -111,7 +111,7 @@ var DiffViewSimple = {
 
     return output;
   },
-  renderDelta: function(history, step, currentStep, currentStepText) {
+  renderDelta: function (history, step, currentStep, currentStepText) {
     // initialise the text
     if (!currentStepText) {
       if (!currentStep) {
@@ -144,7 +144,7 @@ var DiffViewSimple = {
     //  }
     //}
   },
-  applyDiff: function(step, delta, forward) {
+  applyDiff: function (step, delta, forward) {
     var splitDelta = delta.split("\n");
     var stepLines = step.split("\n");
     var added = 0;

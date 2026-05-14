@@ -1,6 +1,6 @@
 {
   "name": "diff-view",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Diff viewer based on simple diff",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/tomitrescak/meteor-diff#readme",
   "devDependencies": {
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "vitest": "^4.1.6"
   },
   "types": "./index.d.ts",
   "dependencies": {
